@@ -264,7 +264,7 @@ nav {
 /* ====================== Restaurant Details ====================== */
 .inside {
   header {
-    width: 100%;
+  width: 100%;
 
     @media only screen and (min-width: 768px) {
       position: fixed;
@@ -272,7 +272,7 @@ nav {
       z-index: 1000;
     }
   }
-}
+
 
 #map-container {
   background: blue none repeat scroll 0 0;
@@ -440,3 +440,4 @@ nav {
   color: #666;
 }
   
+}
