@@ -1,0 +1,24 @@
+{
+  "name": "mark-coole-mws-udacity",
+  "version": "1.0.0",
+  "description": "MArk Coole - MWS Udacity",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/markcoole/mws-restaurant-stage-1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/markcoole/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://github.com/markcoole/mws-restaurant-stage-1#readme",
+  "devDependencies": {
+    "browser-sync": "^2.23.6",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0"
+  }
+}
