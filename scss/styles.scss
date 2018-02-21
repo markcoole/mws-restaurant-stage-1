@@ -1,5 +1,13 @@
 @charset "utf-8";
 
+/* Mixins */
+
+$base-font-size: 12px;
+@mixin font-size($font-size){
+   font-size: $font-size;
+   font-size: ($font-size/$base-font-size)*1rem;
+}
+
 /* CSS Document */
 
 img, embed, object, video {
@@ -8,7 +16,7 @@ img, embed, object, video {
 
 body, td, th, p {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 10pt;
+  @include font-size(10px);
   color: #333;
   line-height: 1.5;
 }
@@ -21,7 +29,7 @@ body {
 
 ul, li {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 10pt;
+  @include font-size(10px);
   color: #333;
 }
 
@@ -56,11 +64,18 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 #footer {
   background-color: #444;
   color: #aaa;
-  font-size: 8pt;
+  @include font-size(8px);
   letter-spacing: 1px;
   padding: 25px 0;
   text-align: center;
   text-transform: uppercase;
+
+  @media only screen and (min-width: 768px) {
+    width: 50%;
+  }
+  @media only screen and (min-width: 1280px) {
+    width: 100%;
+  }
 }
 
 /* ====================== Navigation ====================== */
@@ -76,7 +91,7 @@ nav {
 
     a {
       color: #fff;
-      font-size: 14pt;
+      @include font-size(14px);
       font-weight: 200;
       letter-spacing: 10px;
       text-transform: uppercase;
@@ -88,7 +103,7 @@ nav {
   padding: 10px 40px 16px;
   list-style: none;
   background-color: #eee;
-  font-size: 17px;
+  @include font-size(17px);
   margin: 0;
   width: calc(100% - 80px);
 
@@ -131,19 +146,23 @@ nav {
   align-items: center;
 
   @media only screen and (min-width: 768px) {
-    height: 50px;
+    width: 50%;
+  }
+
+  @media only screen and (min-width: 1280px) {
+    width: 100%;
   }
 
   h2 {
     color: white;
-    font-size: 1rem;
+    @include font-size(16px);
     font-weight: normal;
     line-height: 1;
     margin: 0 20px;
     padding: 20px 0;
 
-    @media only screen and (min-width: 768px) {
-      padding: 0;
+    @media only screen and (min-width: 1280px) {
+      display: inline-block;
     }
   }
 
@@ -151,7 +170,7 @@ nav {
     background-color: white;
     border: 1px solid #fff;
     font-family: Arial,sans-serif;
-    font-size: 11pt;
+    @include font-size(11px);
     height: 35px;
     letter-spacing: 0;
     margin: 10px;
@@ -160,6 +179,10 @@ nav {
 
     @media only screen and (min-width: 768px) {
       width: 200px;
+    }
+
+    @media only screen and (min-width: 1280px) {
+      display: inline-block;
     }
   }
 }
@@ -170,9 +193,16 @@ nav {
   list-style: outside none none;
   margin: 0;
   padding: 30px 15px 60px;
-  text-align: center;
   display: flex;
   flex-wrap: wrap;
+
+  @media only screen and (min-width: 768px) {
+    width: calc(50% - 30px);
+  }
+
+  @media only screen and (min-width: 1280px) {
+    width: calc(100% - 30px);
+  }
 
   li {
     background-color: #fff;
@@ -180,18 +210,22 @@ nav {
     font-family: Arial,sans-serif;
     margin: 15px;
     min-height: 380px;
-    padding: 0 30px 25px;
+    padding: 25px 30px 25px;
     text-align: left;
-    width: calc(100% - 90px);
+    width: calc(100% - 94px);
 
-    @media only screen and (min-width: 768px) {
-      width: 270px;
+    @media only screen and (min-width: 1080px) {
+      width: calc(50% - 94px);
+    }
+
+    @media only screen and (min-width: 1280px) {
+      width: calc(25% - 94px);
     }
 
     h1 {
       color: #f18200;
       font-family: Arial,sans-serif;
-      font-size: 14pt;
+      @include font-size(14px);
       font-weight: 200;
       letter-spacing: 0;
       line-height: 1.3;
@@ -204,7 +238,7 @@ nav {
       border-bottom: 3px solid #eee;
       color: #fff;
       display: inline-block;
-      font-size: 10pt;
+      @include font-size(10px);
       margin: 15px 0 0;
       padding: 8px 30px 10px;
       text-align: center;
@@ -215,7 +249,7 @@ nav {
 
   p {
     margin: 0;
-    font-size: 11pt;
+    @include font-size(11px);
   }
 
   .restaurant-img {
@@ -223,8 +257,7 @@ nav {
     display: block;
     margin: 0;
     max-width: 100%;
-    min-height: 248px;
-    min-width: 100%;
+    width: 100%;
   }
 }
 
@@ -254,6 +287,13 @@ nav {
     width: 50%;
   }
 
+  @media only screen and (min-width: 1280px) {
+    width: 100%;
+    position: relative;
+    height: calc(50vh - 80px);
+    top: 0;
+  }
+
   #map {
     background-color: #ccc;
     height: 100%;
@@ -270,13 +310,17 @@ nav {
       position: absolute;
       width: 50%;
     }
+
+    @media only screen and (min-width: 1280px) {
+      width: 100%;
+    }
   }
 }
 
 #restaurant-name {
   color: #f18200;
   font-family: Arial,sans-serif;
-  font-size: 20pt;
+  @include font-size(20px);
   font-weight: 200;
   letter-spacing: 0;
   margin: 15px 0 30px;
@@ -294,14 +338,14 @@ nav {
 }
 
 #restaurant-address {
-  font-size: 12pt;
+  @include font-size(12px);
   margin: 10px 0px;
 }
 
 #restaurant-cuisine {
   background-color: #333;
   color: #ddd;
-  font-size: 12pt;
+  @include font-size(12px);
   font-weight: 300;
   letter-spacing: 10px;
   margin: 0 0 20px;
@@ -332,7 +376,7 @@ nav {
 
   h2 {
     color: #f58500;
-    font-size: 24pt;
+    @include font-size(24px);
     font-weight: 300;
     letter-spacing: -1px;
     padding-bottom: 1pt;
@@ -353,6 +397,7 @@ nav {
     position: relative;
     width: 100%;
     border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px;
 
     .name-date {
       background: #252831;
@@ -362,22 +407,30 @@ nav {
 
     .name {
       color: #fff;
-      padding: 5px 5px 5px 15px;
+      padding: 12px 5px 8px 15px;
+      @include font-size(12px);
       margin: 0;
     }
 
     .date {
       color: #aaa;
-      padding: 5px 15px 5px 5px;
+      padding:12px 15px 5px 5px;
       margin: 0;
     }
 
     .rating {
       background: orange;
       color: #fff;
+      font-weight: 700;
+      display: inline-block;
+      padding: 3px 10px;
+      margin: 15px 15px 0;
+      text-transform: uppercase;
+      border-radius: 2px;
     } 
 
     p {
+      padding: 15px;
       margin: 0 0 10px;
     }
   }
