@@ -51,9 +51,6 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   padding: 25px 0;
   text-align: center;
   text-transform: uppercase; }
-  @media only screen and (min-width: 768px) {
-    #footer {
-      width: 50%; } }
   @media only screen and (min-width: 1280px) {
     #footer {
       width: 100%; } }
@@ -65,8 +62,11 @@ nav {
   background-color: #252831;
   text-align: center; }
   nav h1 {
-    padding-top: 25px;
+    padding-top: 15px;
     margin: auto; }
+    @media only screen and (min-width: 768px) {
+      nav h1 {
+        padding-top: 25px; } }
     nav h1 a {
       color: #fff;
       font-size: 14px;
@@ -110,9 +110,6 @@ nav {
   width: 100%;
   background-color: #3397DB;
   align-items: center; }
-  @media only screen and (min-width: 768px) {
-    .filter-options {
-      width: 50%; } }
   @media only screen and (min-width: 1280px) {
     .filter-options {
       width: 100%; } }
@@ -153,9 +150,6 @@ nav {
   padding: 30px 15px 60px;
   display: flex;
   flex-wrap: wrap; }
-  @media only screen and (min-width: 768px) {
-    #restaurants-list {
-      width: calc(50% - 30px); } }
   @media only screen and (min-width: 1280px) {
     #restaurants-list {
       width: calc(100% - 30px); } }
@@ -168,12 +162,15 @@ nav {
     padding: 25px 30px 25px;
     text-align: left;
     width: calc(100% - 94px); }
+    @media only screen and (min-width: 768px) {
+      #restaurants-list li {
+        width: calc(50% - 94px); } }
     @media only screen and (min-width: 1080px) {
       #restaurants-list li {
         width: calc(50% - 94px); } }
     @media only screen and (min-width: 1280px) {
       #restaurants-list li {
-        width: calc(25% - 94px); } }
+        width: calc(20% - 94px); } }
     #restaurants-list li h1 {
       color: #f18200;
       font-family: Arial,sans-serif;
@@ -227,28 +224,23 @@ nav {
       right: 0;
       top: 80px;
       width: 50%; } }
-  @media only screen and (min-width: 1280px) {
-    .inside #map-container {
-      width: 100%;
-      position: relative;
-      height: calc(50vh - 80px);
-      top: 0; } }
   .inside #map-container #map {
     background-color: #ccc;
     height: 100%;
     width: 100%; }
-  .inside #map-container #footer {
-    bottom: 0;
-    position: absolute;
-    width: 100%; }
-    @media only screen and (min-width: 768px) {
-      .inside #map-container #footer {
-        bottom: 0;
-        position: absolute;
-        width: 50%; } }
-    @media only screen and (min-width: 1280px) {
-      .inside #map-container #footer {
-        width: 100%; } }
+
+.inside #footer {
+  bottom: 0;
+  position: absolute;
+  width: 100%; }
+  @media only screen and (min-width: 768px) {
+    .inside #footer {
+      bottom: 0;
+      position: absolute;
+      width: 50%; } }
+  @media only screen and (min-width: 1280px) {
+    .inside #footer {
+      width: 50%; } }
 
 .inside #restaurant-name {
   color: #f18200;
