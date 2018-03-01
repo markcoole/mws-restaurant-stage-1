@@ -140,6 +140,8 @@ createRestaurantHTML = (restaurant) => {
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
+  image.sizes = "(max-width:1280px) 100vw, (min-width: 1281px) 20vw";
+  image.srcset = DBHelper.imageUrlForRestaurant(restaurant) + ' 800w, ' + DBHelper.smallImageUrlForRestaurant(restaurant) + ' 250w';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   image.alt = "Image of " + restaurant.name;
   li.append(image);
@@ -157,6 +159,7 @@ createRestaurantHTML = (restaurant) => {
   li.append(address);
 
   const more = document.createElement('a');
+  more.setAttribute('aria-label', 'View Details about ' + restaurant.name)
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
   li.append(more)

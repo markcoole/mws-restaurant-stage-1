@@ -2,6 +2,7 @@ const gulp = require('gulp');
 const sass = require('gulp-sass');
 const imagemin = require('gulp-imagemin');
 const imageResize = require('gulp-image-resize');
+const rename = require("gulp-rename");
 const browserSync = require('browser-sync').create();
 
 gulp.task('sass', function(){
@@ -29,14 +30,12 @@ gulp.task('images', () =>
         .pipe(gulp.dest('img/'))
 );
 
-gulp.task('image-resize', function () {
+gulp.task('imgResize', function () {
   gulp.src('_assets/img/*.jpg')
     .pipe(imageResize({
-      width : 100,
-      height : 100,
-      crop : true,
-      upscale : false
+      width : 250
     }))
+    .pipe(rename(function (path) { path.basename += "-250px"; }))
     .pipe(gulp.dest('img/'));
 });
 
