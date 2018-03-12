@@ -2,7 +2,6 @@ var CACHE_NAME = 'mws-restaurant-stage-v1';
 var urlsToCache = [
   '/',
   '/index.html',
-  '/data/restaurants.json',
   '/css/styles.css',
   '/js/main.js',
   '/js/dbhelper.js',
