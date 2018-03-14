@@ -5,6 +5,7 @@ const uglify = require('gulp-uglify');
 const babel = require('gulp-babel');
 const pump = require('pump');
 const imagemin = require('gulp-imagemin');
+const webp = require('gulp-webp');
 const imageResize = require('gulp-image-resize');
 const rename = require("gulp-rename");
 const browserSync = require('browser-sync').create();
@@ -53,6 +54,12 @@ gulp.task('images', () =>
               ]
           })
       ], {verbose: true}))
+        .pipe(gulp.dest('img/'))
+);
+
+gulp.task('webp', () =>
+    gulp.src('_assets/img/*.jpg')
+        .pipe(webp())
         .pipe(gulp.dest('img/'))
 );
 
