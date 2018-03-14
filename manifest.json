@@ -1,0 +1,31 @@
+{
+    "name": "RestaurantApp",
+    "short_name": "RestaurantApp",
+    "icons": [
+      {
+        "src": "launcher-icon-1x.png",
+        "type": "image/png",
+        "sizes": "48x48"
+      },
+      {
+        "src": "launcher-icon-2x.png",
+        "type": "image/png",
+        "sizes": "96x96"
+      },
+      {
+        "src": "launcher-icon-4x.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "launcher-icon-5x.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "start_url": "localhost:3000",
+    "display": "standalone",
+    "background_color": "#fff",
+    "theme_color": "#317EFB", 
+    "description": "A simple Restaurant App."
+  }

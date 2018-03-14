@@ -1,9 +1,0 @@
-{
-    "name": "RestaurantApp",
-    "short_name": "RestaurantApp",
-    "start_url": ".",
-    "display": "standalone",
-    "background_color": "#fff",
-    "theme_color": "#512DA8", 
-    "description": "A simple Restaurant App."
-  }

@@ -139,13 +139,22 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
+  const a = document.createElement('a');
+  a.href =  DBHelper.smallImageUrlForRestaurant(restaurant);
+  a.setAttribute('data-srcset', DBHelper.imageUrlForRestaurant(restaurant) + ' 800w, ' + DBHelper.smallImageUrlForRestaurant(restaurant) + ' 250w');
+  a.setAttribute('data-sizes', '(max-width:1280px) 100vw, (min-width: 1281px) 20vw');
+  a.setAttribute('data-alttext', 'Image of ' + restaurant.name);
+  a.className = 'progressive replace';
+
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
-  image.sizes = "(max-width:1280px) 100vw, (min-width: 1281px) 20vw";
-  image.srcset = DBHelper.imageUrlForRestaurant(restaurant) + ' 800w, ' + DBHelper.smallImageUrlForRestaurant(restaurant) + ' 250w';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  image.alt = "Image of " + restaurant.name;
-  li.append(image);
+  image.className = 'preview';
+  //image.sizes = "(max-width:1280px) 100vw, (min-width: 1281px) 20vw";
+  //image.srcset = DBHelper.imageUrlForRestaurant(restaurant) + ' 800w, ' + DBHelper.smallImageUrlForRestaurant(restaurant) + ' 250w';
+  image.src = DBHelper.smallImageUrlForRestaurant(restaurant);
+  //image.alt = "Image of " + restaurant.name;
+  
+  a.appendChild(image)
+  li.append(a);
 
   const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
