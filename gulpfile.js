@@ -1,5 +1,9 @@
 const gulp = require('gulp');
 const sass = require('gulp-sass');
+const concat = require('gulp-concat');
+const uglify = require('gulp-uglify');
+const babel = require('gulp-babel');
+const pump = require('pump');
 const imagemin = require('gulp-imagemin');
 const imageResize = require('gulp-image-resize');
 const rename = require("gulp-rename");
@@ -12,6 +16,28 @@ gulp.task('sass', function(){
     .pipe(browserSync.reload({
       stream: true
   }))
+});
+
+gulp.task('scripts-main', function(){
+  return gulp.src(['_assets/js/dbhelper.js', '_assets/js/main.js', '_assets/js/progressive-image.js'])
+      .pipe(concat('main.js'))
+      .pipe(gulp.dest('js/'));
+});
+
+gulp.task('scripts-restaurant', function(){
+  return gulp.src(['_assets/js/dbhelper.js', '_assets/js/restaurant_info.js'])
+      .pipe(concat('main-restaurant.js'))
+      .pipe(gulp.dest('js/'));
+});
+
+gulp.task('minify', () => {
+  return gulp.src('js/all.js')
+    .pipe(babel({
+      presets: ['es2015']
+    }))
+    .pipe(uglify())
+    .pipe(rename('main.min.js'))
+    .pipe(gulp.dest('js/'));
 });
 
 gulp.task('images', () =>
