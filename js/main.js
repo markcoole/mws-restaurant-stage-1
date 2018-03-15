@@ -48,9 +48,9 @@ class DBHelper {
         // Examine the text in the response
         response.json().then(data => {
           const json = data;
-          for (var i = 0; i < json.length; i++) { 
-            idbKeyval.set(json[i].id, json[i])
-          }
+          
+            idbKeyval.set('Restaurants', json)
+         
           console.log(data);
           callback(null, data);
         });
