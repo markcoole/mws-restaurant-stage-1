@@ -48,6 +48,10 @@ class DBHelper {
         // Examine the text in the response
         response.json().then(data => {
           const json = data;
+          for (var i = 0; i < json.length; i++) { 
+            idbKeyval.set(json[i].id, json[i])
+          }
+          console.log(data);
           callback(null, data);
         });
       }
@@ -298,6 +302,7 @@ window.initMap = () => {
     scrollwheel: false
   });
   updateRestaurants();
+  document.getElementById("first-load").innerHTML = "";
 }
 
 /**
@@ -356,7 +361,7 @@ createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
   
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
+  image.className = 'restaurant-img js-lazy-image';
   image.sizes = "(max-width:1280px) 100vw, (min-width: 1281px) 20vw";
   image.srcset = DBHelper.imageUrlForRestaurant(restaurant) + ' 800w, ' + DBHelper.smallImageUrlForRestaurant(restaurant) + ' 250w';
   image.alt = "Image of " + restaurant.name;
@@ -412,8 +417,3 @@ if ('serviceWorker' in navigator) {
     console.log('Service worker registration failed, error:', error);
   });
 }
-/*var myLazyLoad = */ new LazyLoad({
-  data_src: "src",
-  data_srcset: "srcset",
-  show_while_loading: true, //best for progressive JPEG
-});

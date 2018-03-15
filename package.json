@@ -29,5 +29,9 @@
     "gulp-webp": "^3.0.0",
     "imagemin-webp": "^4.1.0",
     "pump": "^3.0.0"
+  },
+  "dependencies": {
+    "gulp-concat": "^2.6.1",
+    "idb": "^2.1.0"
   }
 }

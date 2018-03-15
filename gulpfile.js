@@ -20,7 +20,7 @@ gulp.task('sass', function(){
 });
 
 gulp.task('scripts-main', function(){
-  return gulp.src(['_assets/js/dbhelper.js', '_assets/js/main.js', '_assets/js/progressive-image.js'])
+  return gulp.src(['_assets/js/dbhelper.js', '_assets/js/main.js'])
       .pipe(concat('main.js'))
       .pipe(gulp.dest('js/'));
 });

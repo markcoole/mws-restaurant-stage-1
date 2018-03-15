@@ -82,6 +82,7 @@ window.initMap = () => {
     scrollwheel: false
   });
   updateRestaurants();
+  document.getElementById("first-load").innerHTML = "";
 }
 
 /**
@@ -140,7 +141,7 @@ createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
   
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
+  image.className = 'restaurant-img js-lazy-image';
   image.sizes = "(max-width:1280px) 100vw, (min-width: 1281px) 20vw";
   image.srcset = DBHelper.imageUrlForRestaurant(restaurant) + ' 800w, ' + DBHelper.smallImageUrlForRestaurant(restaurant) + ' 250w';
   image.alt = "Image of " + restaurant.name;
