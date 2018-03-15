@@ -23,7 +23,7 @@
         "sizes": "512x512"
       }
     ],
-    "start_url": "localhost:3000",
+    "start_url": "http://localhost:3000",
     "display": "standalone",
     "background_color": "#fff",
     "theme_color": "#317EFB", 
