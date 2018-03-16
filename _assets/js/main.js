@@ -82,7 +82,6 @@ window.initMap = () => {
     scrollwheel: false
   });
   updateRestaurants();
-  document.getElementById("first-load").innerHTML = "";
 }
 
 /**
@@ -184,16 +183,6 @@ addMarkersToMap = (restaurants = self.restaurants) => {
   });
 }
 
-
-/**
- * Register service worker
- */
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js')
-  .then(function(registration) {
-    console.log('Registration successful, scope is:', registration.scope);
-  })
-  .catch(function(error) {
-    console.log('Service worker registration failed, error:', error);
-  });
-}
+document.addEventListener("DOMContentLoaded", function(event) {
+  document.getElementById("first-load").innerHTML = "";
+});

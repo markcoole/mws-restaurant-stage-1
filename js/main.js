@@ -1,3 +1,15 @@
+//Register service worker
+if (navigator.serviceWorker) {
+  navigator.serviceWorker.register('/sw.js').then(function() {
+    console.log('Registration worked!');
+  })
+  .catch(function () {
+    console.log('Registration failed!');
+  });
+} else {
+  console.log('Service worker is not supported in this browser');
+}
+
 /**
  * Common database helper functions.
  */
@@ -7,57 +19,89 @@ class DBHelper {
    * Database URL.
    * Change this to restaurants.json file location on your server.
    */
-  // static get DATABASE_URL() {
-  //   const port = 3000 // Change this to your server port
-  //   return `http://localhost:${port}/data/restaurants.json`;
-  // }
-
   static get DATABASE_URL() {
     const port = 1337 // Change this to your server port
     return `http://localhost:${port}/restaurants`;
   }
 
   /**
+   * Open IndexedDB
+   */
+  static openIDB() {
+    return idb.open('restaurants', 1, function(upgradeDB) {
+      var store = upgradeDB.createObjectStore('keyval', {
+        keyPath: 'id'
+      });
+    });
+  }
+
+  /**
+   * Insert data into indexedDB
+   * @param {Array} data 
+   */
+  static insertDB(data) {
+    return DBHelper.openIDB()
+    .then(function(db) {
+      const tx = db.transaction('keyval', 'readwrite');
+      var store = tx.objectStore('keyval');
+      console.log(data);
+      for (let i=0; i<data.length; i++) {
+        store.put(data[i]);
+      }
+      return tx.complete;
+    });
+  }
+
+    /**
+   * Read from indexedDB
+   */
+  static readDB() {
+    return DBHelper.openIDB()
+    .then(function(db) {
+      const tx = db.transaction('keyval');
+      const store = tx.objectStore('keyval');
+
+      return store.getAll();
+    })
+  }
+
+  static fetchFromServer(bool) {
+    if (bool) {
+      return fetch(DBHelper.DATABASE_URL)
+      .then(function (response) {  
+        const json = response.json();
+        return json;
+      }).then(function(data) {
+        DBHelper.insertDB(data);
+        return data;
+      })
+    }
+  }
+
+  /**
    * Fetch all restaurants.
    */
-  // static fetchRestaurants(callback) {
-  //   let xhr = new XMLHttpRequest();
-  //   xhr.open('GET', DBHelper.DATABASE_URL);
-  //   xhr.onload = () => {
-  //     if (xhr.status === 200) { // Got a success response from server!
-  //       const json = JSON.parse(xhr.responseText);
-  //       const restaurants = json.restaurants;
-  //       callback(null, restaurants);
-  //     } else { // Oops!. Got an error from server.
-  //       const error = (`Request failed. Returned status of ${xhr.status}`);
-  //       callback(error, null);
-  //     }
-  //   };
-  //   xhr.send();
-  // }
-
   static fetchRestaurants(callback) {
-    fetch(DBHelper.DATABASE_URL)
-    .then(response => {
-        if (response.status !== 200) {
-          console.log('Looks like there was a problem. Status Code: ' +
-            response.status);
-          return;
-        }
 
-        // Examine the text in the response
-        response.json().then(data => {
-          const json = data;
-          
-            idbKeyval.set('Restaurants', json)
-         
-          console.log(data);
-          callback(null, data);
-        });
+    DBHelper.readDB()
+    .then(function(data) {
+      console.log(data);
+      if (data.length == 0) {
+        return DBHelper.fetchFromServer(true);
       }
-    )
-    .catch(err => console.log('Fetch Error :-S', err))
+      return Promise.resolve(data);
+    })
+    .then(function(restaurants) {
+      console.log(restaurants);
+      callback(null, restaurants);
+    })
+    .catch(function (err) {
+      const error = `Request failed. Returned status of ${err.status}`;
+      console.log('ERROR DB: ' + err);
+      callback(error, null);
+    });
   }
+
 
   /**
    * Fetch a restaurant by its ID.
@@ -401,19 +445,5 @@ addMarkersToMap = (restaurants = self.restaurants) => {
       window.location.href = marker.url
     });
     self.markers.push(marker);
-  });
-}
-
-
-/**
- * Register service worker
- */
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js')
-  .then(function(registration) {
-    console.log('Registration successful, scope is:', registration.scope);
-  })
-  .catch(function(error) {
-    console.log('Service worker registration failed, error:', error);
   });
 }
