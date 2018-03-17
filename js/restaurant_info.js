@@ -1,10 +1,10 @@
 //Register service worker
 if (navigator.serviceWorker) {
   navigator.serviceWorker.register('/sw.js').then(function() {
-    console.log('Registration worked!');
+    console.log('Service worker succssfully registered!');
   })
   .catch(function () {
-    console.log('Registration failed!');
+    console.log('Service worker registration failed!');
   });
 } else {
   console.log('Service worker is not supported in this browser');
@@ -25,7 +25,7 @@ class DBHelper {
   }
 
   /**
-   * Open IndexedDB
+   * Tidy up - Open IndexedDB
    */
   static openIDB() {
     return idb.open('restaurants', 1, function(upgradeDB) {
@@ -37,7 +37,6 @@ class DBHelper {
 
   /**
    * Insert data into indexedDB
-   * @param {Array} data 
    */
   static insertDB(data) {
     return DBHelper.openIDB()
@@ -52,7 +51,7 @@ class DBHelper {
     });
   }
 
-    /**
+  /**
    * Read from indexedDB
    */
   static readDB() {
@@ -65,6 +64,9 @@ class DBHelper {
     })
   }
 
+  /**
+   * Fetch from server
+   */
   static fetchFromServer(bool) {
     if (bool) {
       return fetch(DBHelper.DATABASE_URL)
@@ -224,11 +226,11 @@ class DBHelper {
   static imageUrlForRestaurant(restaurant) {
     if(restaurant.photograph === undefined)
     {
-      return (`/img/image-placeholder.jpg`);
+      return (`/img/image-placeholder.webp`);
     }
     else 
     {
-      return (`/img/${restaurant.photograph}.jpg`);
+      return (`/img/${restaurant.photograph}.webp`);
     }
   }
 
@@ -238,11 +240,11 @@ class DBHelper {
   static smallImageUrlForRestaurant(restaurant) {
     if(restaurant.photograph === undefined)
     {
-      return (`/img/image-placeholder.jpg`);
+      return (`/img/image-placeholder.webp`);
     }
     else 
     {
-      return (`/img/${restaurant.photograph}-250px.jpg`);
+      return (`/img/${restaurant.photograph}-250px.webp`);
     }
   }
 

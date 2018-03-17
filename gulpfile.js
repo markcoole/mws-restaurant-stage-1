@@ -20,14 +20,14 @@ gulp.task('sass', function(){
 });
 
 gulp.task('scripts-main', function(){
-  return gulp.src(['_assets/js/dbhelper.js', '_assets/js/main.js'])
+  return gulp.src([ '_assets/js/dbhelper.js', '_assets/js/responsiveLazy.js', '_assets/js/main.js'])
       .pipe(concat('main.js'))
       .pipe(gulp.dest('js/'));
 });
 
 gulp.task('scripts-restaurant', function(){
-  return gulp.src(['_assets/js/dbhelper.js', '_assets/js/restaurant_info.js'])
-      .pipe(concat('main-restaurant.js'))
+  return gulp.src([ '_assets/js/dbhelper.js', '_assets/js/restaurant_info.js'])
+      .pipe(concat('restaurant_info.js'))
       .pipe(gulp.dest('js/'));
 });
 
