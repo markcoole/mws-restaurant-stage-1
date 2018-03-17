@@ -317,7 +317,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img js-lazy-image'
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  image.alt = "Delicious " + restaurant.cuisine_type + " food at the " + restaurant.name + " restaurant.";
+  image.alt = restaurant.cuisine_type + " food at the " + restaurant.name + " restaurant.";
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
