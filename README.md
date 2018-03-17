@@ -12,7 +12,7 @@ You have been provided the code for a restaurant reviews website. The code has a
 
 ### What do I do from here?
 
-1. In this folder, open up command line and run 'gulp watch'. This will open up the website to view. 
+1. In this folder, open up command line and run 'npm install' and 'gulp watch'. This will open up the website to view. 
 
 
 ### Note about ES6
