@@ -10,6 +10,8 @@ const imageResize = require('gulp-image-resize');
 const rename = require("gulp-rename");
 const browserSync = require('browser-sync').create();
 
+
+/* Sass to css gulp task */
 gulp.task('sass', function(){
   return gulp.src('_assets/scss/*.scss')
     .pipe(sass())
@@ -19,28 +21,32 @@ gulp.task('sass', function(){
   }))
 });
 
+/* Compile the JS for the main index page */
 gulp.task('scripts-main', function(){
   return gulp.src([ '_assets/js/dbhelper.js', '_assets/js/responsiveLazy.js', '_assets/js/main.js'])
       .pipe(concat('main.js'))
       .pipe(gulp.dest('js/'));
 });
 
+/* Compile the JS for the single restaurant page */
 gulp.task('scripts-restaurant', function(){
   return gulp.src([ '_assets/js/dbhelper.js', '_assets/js/restaurant_info.js'])
       .pipe(concat('restaurant_info.js'))
       .pipe(gulp.dest('js/'));
 });
 
-gulp.task('minify', () => {
-  return gulp.src('js/all.js')
-    .pipe(babel({
-      presets: ['es2015']
-    }))
-    .pipe(uglify())
-    .pipe(rename('main.min.js'))
-    .pipe(gulp.dest('js/'));
-});
+/* Compile the JS for the main index page */
+// gulp.task('minify', () => {
+//   return gulp.src('js/all.js')
+//     .pipe(babel({
+//       presets: ['es2015']
+//     }))
+//     .pipe(uglify())
+//     .pipe(rename('main.min.js'))
+//     .pipe(gulp.dest('js/'));
+// });
 
+/* Optimise images */
 gulp.task('images', () =>
     gulp.src('_assets/img/*')
         .pipe(imagemin([
@@ -57,12 +63,14 @@ gulp.task('images', () =>
         .pipe(gulp.dest('img/'))
 );
 
+/* Convert images to webp */
 gulp.task('webp', () =>
     gulp.src('_assets/img/*.jpg')
         .pipe(webp())
         .pipe(gulp.dest('img/'))
 );
 
+/* Resze images */
 gulp.task('imgResize', function () {
   gulp.src('_assets/img/*.jpg')
     .pipe(imageResize({
@@ -72,6 +80,7 @@ gulp.task('imgResize', function () {
     .pipe(gulp.dest('img/'));
 });
 
+/* watch browser sync setup */
 gulp.task('watch', ['browserSync'], function(){
   gulp.watch('scss/*.scss', ['sass']); 
   // Other watchers
