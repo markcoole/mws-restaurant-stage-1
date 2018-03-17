@@ -140,11 +140,15 @@ createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
   
   const image = document.createElement('img');
-  image.className = 'restaurant-img js-lazy-image';
+  image.className = 'restaurant-img responsively-lazy';
+  image.src = DBHelper.smallImageUrlForRestaurant(restaurant);
+  image.srcset = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
   image.sizes = "(max-width:1280px) 100vw, (min-width: 1281px) 20vw";
-  image.srcset = DBHelper.imageUrlForRestaurant(restaurant) + ' 800w, ' + DBHelper.smallImageUrlForRestaurant(restaurant) + ' 250w';
+  image.setAttribute('data-src', DBHelper.imageUrlForRestaurant(restaurant) + ' 800w, ' + DBHelper.smallImageUrlForRestaurant(restaurant) + ' 250w');
   image.alt = "Image of " + restaurant.name;
   
+
+
   // a.appendChild(image)
   li.append(image);
 

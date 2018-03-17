@@ -1,6 +1,6 @@
 {
     "name": "RestaurantApp",
-    "short_name": "RestaurantApp",
+    "short_name": "FoodApp",
     "icons": [
       {
         "src": "launcher-icon-1x.png",
@@ -23,7 +23,7 @@
         "sizes": "512x512"
       }
     ],
-    "start_url": "http://localhost:3000",
+    "start_url": "http://localhost",
     "display": "standalone",
     "background_color": "#fff",
     "theme_color": "#317EFB", 
