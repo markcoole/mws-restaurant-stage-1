@@ -42,7 +42,6 @@ class DBHelper {
     .then(db => {
       const tx = db.transaction('keyval', 'readwrite');
       var store = tx.objectStore('keyval');
-      console.log(data);
       for (let restaurant of data) {
         store.put(restaurant);
       }
@@ -83,19 +82,16 @@ class DBHelper {
   static fetchRestaurants(callback) {
     DBHelper.readDB()
     .then(data => {
-      console.log(data);
       if (data.length == 0) {
         return DBHelper.fetchFromServer();
       }
       return Promise.resolve(data);
     })
     .then(restaurants => {
-      console.log(restaurants);
       callback(null, restaurants);
     })
     .catch(err => {
-      const error = `Request failed. Returned status of ${err.status}`;
-      console.log('ERROR DB: ' + err);
+      console.log(`ERROR DB: ${err.status}`);
       callback(error, null);
     });
   }

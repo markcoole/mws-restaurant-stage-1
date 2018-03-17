@@ -17,7 +17,6 @@ class DBHelper {
 
   /**
    * Database URL.
-   * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
     const port = 1337 // Change this to your server port
@@ -25,7 +24,7 @@ class DBHelper {
   }
 
   /**
-   * Tidy up - Open IndexedDB
+   * Open IndexedDB
    */
   static openIDB() {
     return idb.open('restaurants', 1, function(upgradeDB) {
@@ -40,12 +39,11 @@ class DBHelper {
    */
   static insertDB(data) {
     return DBHelper.openIDB()
-    .then(function(db) {
+    .then(db => {
       const tx = db.transaction('keyval', 'readwrite');
       var store = tx.objectStore('keyval');
-      console.log(data);
-      for (let i=0; i<data.length; i++) {
-        store.put(data[i]);
+      for (let restaurant of data) {
+        store.put(restaurant);
       }
       return tx.complete;
     });
@@ -56,10 +54,9 @@ class DBHelper {
    */
   static readDB() {
     return DBHelper.openIDB()
-    .then(function(db) {
+    .then(db => {
       const tx = db.transaction('keyval');
       const store = tx.objectStore('keyval');
-
       return store.getAll();
     })
   }
@@ -67,39 +64,34 @@ class DBHelper {
   /**
    * Fetch from server
    */
-  static fetchFromServer(bool) {
-    if (bool) {
-      return fetch(DBHelper.DATABASE_URL)
-      .then(function (response) {  
-        const json = response.json();
-        return json;
-      }).then(function(data) {
-        DBHelper.insertDB(data);
-        return data;
-      })
-    }
+  static fetchFromServer() {
+    return fetch(DBHelper.DATABASE_URL)
+    .then(response => {  
+      const json = response.json();
+      return json;
+    }).then(data => {
+      DBHelper.insertDB(data);
+      return data;
+    })
   }
 
   /**
-   * Fetch all restaurants.
+   * Fetch all restaurants. 
+   * Read the DB then if none fetch from server
    */
   static fetchRestaurants(callback) {
-
     DBHelper.readDB()
-    .then(function(data) {
-      console.log(data);
+    .then(data => {
       if (data.length == 0) {
-        return DBHelper.fetchFromServer(true);
+        return DBHelper.fetchFromServer();
       }
       return Promise.resolve(data);
     })
-    .then(function(restaurants) {
-      console.log(restaurants);
+    .then(restaurants => {
       callback(null, restaurants);
     })
-    .catch(function (err) {
-      const error = `Request failed. Returned status of ${err.status}`;
-      console.log('ERROR DB: ' + err);
+    .catch(err => {
+      console.log(`ERROR DB: ${err.status}`);
       callback(error, null);
     });
   }
