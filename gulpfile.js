@@ -23,7 +23,7 @@ gulp.task('sass', function(){
 
 /* Compile the JS for the main index page */
 gulp.task('scripts-main', function(){
-  return gulp.src([ '_assets/js/dbhelper.js', '_assets/js/responsiveLazy.js', '_assets/js/main.js'])
+  return gulp.src([ '_assets/js/responsiveLazy.js', '_assets/js/main.js'])
       .pipe(concat('main.js'))
       .pipe(gulp.dest('js/'));
 });

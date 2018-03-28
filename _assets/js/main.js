@@ -131,6 +131,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
     ul.append(createRestaurantHTML(restaurant));
   });
   addMarkersToMap();
+  
 }
 
 /**
@@ -138,14 +139,13 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
-  
+
   const image = document.createElement('img');
-  image.className = 'restaurant-img responsively-lazy';
-  image.src = DBHelper.smallImageUrlForRestaurant(restaurant);
-  image.srcset = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+  image.className = 'restaurant-img';
+  image.setAttribute('data-src', DBHelper.smallImageUrlForRestaurant(restaurant));
+  image.setAttribute('data-srcset', DBHelper.imageUrlForRestaurant(restaurant) + ' 800w, ' + DBHelper.smallImageUrlForRestaurant(restaurant) + ' 250w');
   image.sizes = "(max-width:1280px) 100vw, (min-width: 1281px) 20vw";
-  image.setAttribute('data-src', DBHelper.imageUrlForRestaurant(restaurant) + ' 800w, ' + DBHelper.smallImageUrlForRestaurant(restaurant) + ' 250w');
-  image.alt = "Image of " + restaurant.name;
+  image.alt = restaurant.cuisine_type + "food served at " + restaurant.name;
   
 
 
@@ -188,6 +188,27 @@ addMarkersToMap = (restaurants = self.restaurants) => {
   });
 }
 
-document.addEventListener("DOMContentLoaded", function(event) {
-  document.getElementById("first-load").innerHTML = "";
-});
+// var button = document.getElementById('toggle-map');
+// function showMap(){
+//   document.getElementById('map-container').style.display = "block";
+//   this.style.display = "none";
+// } 
+  
+// button.addEventListener("click", showMap)
+
+// var button2 = document.getElementById('toggle-restaurants');
+// function showRestaurants(){
+//   document.getElementById('restaurants-hidden').style.display = "block";
+//   this.style.display = "none";
+// } 
+  
+// button2.addEventListener("click", showRestaurants)
+
+document.onreadystatechange = function () {
+  if (document.readyState === "interactive") {
+    setTimeout(() => {
+      new LazyLoad()
+    }, 500);
+      
+  }
+}

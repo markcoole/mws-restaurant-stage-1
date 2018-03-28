@@ -28,7 +28,8 @@
     "gulp-uglify": "^3.0.0",
     "gulp-webp": "^3.0.0",
     "imagemin-webp": "^4.1.0",
-    "pump": "^3.0.0"
+    "pump": "^3.0.0",
+    "purify-css": "^1.2.5"
   },
   "dependencies": {
     "gulp-concat": "^2.6.1",
