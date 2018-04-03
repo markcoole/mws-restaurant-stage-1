@@ -24,24 +24,39 @@ class DBHelper {
   }
 
   /**
+   * Reviews URL.
+   */
+  static get REVIEWS_URL() {
+    const port = 1337 // Change this to your server port
+    return `http://localhost:${port}/reviews`;
+  } 
+
+  /**
    * Open IndexedDB
    */
   static openIDB() {
-    return idb.open('restaurants', 1, function(upgradeDB) {
-      var store = upgradeDB.createObjectStore('keyval', {
+    return idb.open('restaurantInfo', 1, function(upgradeDB) {
+      if (!upgradeDB.objectStoreNames.contains('restaurants')) {
+      var store = upgradeDB.createObjectStore('restaurants', {
         keyPath: 'id'
       });
+    }
+      if (!upgradeDB.objectStoreNames.contains('reviews')) {
+        var store = upgradeDB.createObjectStore('reviews', {
+          keyPath: 'id'
+        });
+    }
     });
   }
 
   /**
    * Insert data into indexedDB
    */
-  static insertDB(data) {
+  static insertDB(data, t, o) {
     return DBHelper.openIDB()
     .then(db => {
-      const tx = db.transaction('keyval', 'readwrite');
-      var store = tx.objectStore('keyval');
+      const tx = db.transaction(t, 'readwrite');
+      var store = tx.objectStore(o);
       for (let restaurant of data) {
         store.put(restaurant);
       }
@@ -52,11 +67,11 @@ class DBHelper {
   /**
    * Read from indexedDB
    */
-  static readDB() {
+  static readDB(t, o) {
     return DBHelper.openIDB()
     .then(db => {
-      const tx = db.transaction('keyval');
-      const store = tx.objectStore('keyval');
+      const tx = db.transaction(t);
+      const store = tx.objectStore(o);
       return store.getAll();
     })
   }
@@ -64,26 +79,25 @@ class DBHelper {
   /**
    * Fetch from server
    */
-  static fetchFromServer() {
-    return fetch(DBHelper.DATABASE_URL)
+  static fetchFromServer(t, o, url) {
+    return fetch(url)
     .then(response => {  
       const json = response.json();
       return json;
     }).then(data => {
-      DBHelper.insertDB(data);
+      DBHelper.insertDB(data, t, o);
       return data;
     })
   }
-
   /**
    * Fetch all restaurants. 
    * Read the DB then if none fetch from server
    */
   static fetchRestaurants(callback) {
-    DBHelper.readDB()
+    DBHelper.readDB('restaurants', 'restaurants')
     .then(data => {
       if (data.length == 0) {
-        return DBHelper.fetchFromServer();
+        return DBHelper.fetchFromServer('restaurants', 'restaurants', DBHelper.DATABASE_URL);
       }
       return Promise.resolve(data);
     })
@@ -254,4 +268,72 @@ class DBHelper {
     return marker;
   }
 
+  /**
+   * Fetch a restaurant by its ID.
+   */
+  static fetchReviewsById(id, callback) {
+    // fetch all restaurants with proper error handling.
+    DBHelper.fetchReviews((error, reviews) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        let review = []; 
+        for(let i = 0; i < reviews.length; i++) 
+        {
+          if(reviews[i].restaurant_id == id) {
+            review.push(reviews[i])
+          }
+        }       
+        if (review) { // Got the restaurant
+          callback(null, review);
+        } else { // review does not exist in the database
+          callback('Review does not exist', null);
+        }
+      }
+    });
+  }
+
+  /**
+   * Fetch all Reviews. 
+   * Read the DB then if none fetch from server
+   */
+  static fetchReviews(callback) {
+    DBHelper.readDB('reviews', 'reviews')
+    .then(data => {
+      if (data.length == 0) {
+        return DBHelper.fetchFromServer('reviews', 'reviews', DBHelper.REVIEWS_URL);
+      }
+      return Promise.resolve(data);
+    })
+    .then(reviews => {
+      callback(null, reviews);
+    })
+    .catch(err => {
+      console.log(`ERROR DB: ${err.status}`);
+      callback(error, null);
+    });
+  }
+
+  /**
+   * Add review
+   */
+  static addReview() {
+    var transaction = db.transaction(['reviews'], 'readwrite');
+    var reviews = transaction.objectStore('reviews');
+    var item = {
+      "restaurant_id": "1",
+      "name": "Test",
+      "rating": "2",
+      "comments": "the best"
+    };
+    var request = reviews.add(item);
+    request.onerror = function(e) {
+      console.log('Error', e.target.error.name);
+    };
+    request.onsuccess = function(e) {
+      console.log('Woot! Did it');
+    };
+  }
+
 }
+

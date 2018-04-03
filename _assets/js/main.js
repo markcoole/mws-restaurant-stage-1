@@ -188,22 +188,6 @@ addMarkersToMap = (restaurants = self.restaurants) => {
   });
 }
 
-// var button = document.getElementById('toggle-map');
-// function showMap(){
-//   document.getElementById('map-container').style.display = "block";
-//   this.style.display = "none";
-// } 
-  
-// button.addEventListener("click", showMap)
-
-// var button2 = document.getElementById('toggle-restaurants');
-// function showRestaurants(){
-//   document.getElementById('restaurants-hidden').style.display = "block";
-//   this.style.display = "none";
-// } 
-  
-// button2.addEventListener("click", showRestaurants)
-
 document.onreadystatechange = function () {
   if (document.readyState === "interactive") {
     setTimeout(() => {
