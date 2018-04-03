@@ -133,7 +133,8 @@ createReviewHTML = (review) => {
   const date = document.createElement('p');
   date.className = "date";
   date.setAttribute('aria-label', 'Review date');
-  date.innerHTML = review.date;
+  let reviewDate = new Date(review.createdAt);
+  date.innerHTML = reviewDate.toDateString();
 
   div.appendChild(name)
   div.appendChild(date);
