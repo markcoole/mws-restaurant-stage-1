@@ -318,21 +318,23 @@ class DBHelper {
    * Add review
    */
   static addReview() {
-    var transaction = db.transaction(['reviews'], 'readwrite');
-    var reviews = transaction.objectStore('reviews');
-    var item = {
-      "restaurant_id": "1",
-      "name": "Test",
-      "rating": "2",
-      "comments": "the best"
-    };
-    var request = reviews.add(item);
-    request.onerror = function(e) {
-      console.log('Error', e.target.error.name);
-    };
-    request.onsuccess = function(e) {
-      console.log('Woot! Did it');
-    };
+    return DBHelper.openIDB()
+    .then(db => {
+      const tx = db.transaction('reviews', 'readwrite');
+      var store = tx.objectStore('reviews');
+      var item = {
+      "id": 1,
+      "restaurant_id": 1,
+      "name": "Steve",
+      "createdAt": 1504095567183,
+      "updatedAt": 1504095567183,
+      "rating": 4,
+      "comments": "the best again"
+      };
+      store.put(item);
+      return tx.complete;
+    });
+      
   }
 
 }
