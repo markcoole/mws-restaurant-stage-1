@@ -43,7 +43,7 @@ class DBHelper {
     }
       if (!upgradeDB.objectStoreNames.contains('reviews')) {
         var store = upgradeDB.createObjectStore('reviews', {
-          keyPath: 'id'
+          autoIncrement : true
         });
     }
     });
@@ -320,18 +320,18 @@ class DBHelper {
   static addReview() {
     return DBHelper.openIDB()
     .then(db => {
+      var d = new Date(Date.now());
+      var msec = Date.parse(d);
       const tx = db.transaction('reviews', 'readwrite');
       var store = tx.objectStore('reviews');
       var item = {
-      "id": 1,
       "restaurant_id": 1,
       "name": "Steve",
-      "createdAt": 1504095567183,
-      "updatedAt": 1504095567183,
       "rating": 4,
-      "comments": "the best again"
+      "comments": "new",
+      "createdAt": msec
       };
-      store.put(item);
+      store.add(item);
       return tx.complete;
     });
       
