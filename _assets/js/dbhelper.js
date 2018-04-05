@@ -318,24 +318,38 @@ class DBHelper {
    * Add review
    */
   static addReview() {
-    return DBHelper.openIDB()
-    .then(db => {
-      var d = new Date(Date.now());
-      var msec = Date.parse(d);
-      const tx = db.transaction('reviews', 'readwrite');
-      var store = tx.objectStore('reviews');
-      var item = {
+    var d = new Date(Date.now());
+    var msec = Date.parse(d);
+    var item = {
       "restaurant_id": 1,
       "name": "Steve",
       "rating": 4,
       "comments": "new",
       "createdAt": msec
-      };
-      store.add(item);
-      return tx.complete;
-    });
-      
-  }
+    };
 
+    var req = new Request( DBHelper.REVIEWS_URL, {
+      method: 'post',
+      mode: 'cors',
+      redirect: 'follow',
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(item)
+    });
+
+// Use request as first parameter to fetch method
+  fetch(req)
+    .then(() => { 
+    /* handle response */
+    return DBHelper.openIDB()
+      .then(db => {
+        const tx = db.transaction('reviews', 'readwrite');
+        var store = tx.objectStore('reviews');
+        store.add(item);
+        return tx.complete;
+      });
+    });
+  }
 }
 
