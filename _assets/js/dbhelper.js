@@ -351,5 +351,48 @@ class DBHelper {
       });
     });
   }
+
+  /**
+   * Toggle Favourite
+   */
+  static toggleFavourite() {
+    let fav = document.getElementById("restaurant-favourite");
+    const id = getParameterByName('id');
+    if(fav.classList.contains('is-favourite')) {
+      fav.className = "not-favourite";
+      fav = false;
+    }
+    else {
+      fav.className = "is-favourite";
+      fav = true;
+    }
+    
+    var item = {
+      "is_favorite": fav
+    };
+
+    var req = new Request( DBHelper.DATABASE_URL + "/ " + id + "/", {
+      method: 'post',
+      mode: 'cors',
+      redirect: 'follow',
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(item)
+    });
+
+// Use request as first parameter to fetch method
+  fetch(req)
+    .then(() => { 
+    /* handle response */
+    // return DBHelper.openIDB()
+    //   .then(db => {
+    //     const tx = db.transaction('restaurants', 'readwrite');
+    //     var store = tx.objectStore('restaurants');
+    //     store.put(item);
+    //     return tx.complete;
+    //   });
+    });
+  }
 }
 

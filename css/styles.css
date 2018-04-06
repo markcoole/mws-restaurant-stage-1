@@ -294,6 +294,12 @@ nav {
   font-size: 1rem;
   margin: 10px 0px; }
 
+.inside .is-favourite {
+  background: blue; }
+
+.inside .not-favourite {
+  background: pink; }
+
 .inside #restaurant-cuisine {
   background-color: #333;
   color: #ddd;

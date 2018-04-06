@@ -65,6 +65,14 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
 
+  const favourite = document.getElementById('restaurant-favourite');
+  if(restaurant.is_favorite) {
+    favourite.className = "is-favourite";
+  }
+  else {
+    favourite.className = "not-favourite";
+  }
+
   // fill operating hours
   if (restaurant.operating_hours) {
     fillRestaurantHoursHTML();
