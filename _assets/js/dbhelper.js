@@ -280,6 +280,7 @@ class DBHelper {
         let review = []; 
         for(let i = 0; i < reviews.length; i++) 
         {
+          console.log(reviews[i])
           if(reviews[i].restaurant_id == id) {
             review.push(reviews[i])
           }
@@ -318,14 +319,14 @@ class DBHelper {
    * Add review
    */
   static addReview() {
-    var d = new Date(Date.now());
-    var msec = Date.parse(d);
+    let newReview = document.getElementById('restaurantReview');
+    const id = getParameterByName('id');
     var item = {
-      "restaurant_id": 1,
-      "name": "Steve",
-      "rating": 4,
-      "comments": "new",
-      "createdAt": msec
+      "restaurant_id": parseInt(id),
+      "name": newReview.name.value,
+      "rating": parseInt(newReview.rating.value),
+      "comments": newReview.review.value,
+      "createdAt": Date.now()
     };
 
     var req = new Request( DBHelper.REVIEWS_URL, {

@@ -1,7 +1,7 @@
 {
   "name": "mark-coole-mws-udacity",
   "version": "1.0.0",
-  "description": "MArk Coole - MWS Udacity",
+  "description": "Mark Coole - MWS Udacity",
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
