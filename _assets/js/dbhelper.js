@@ -386,13 +386,21 @@ class DBHelper {
   fetch(req)
     .then(() => { 
     /* handle response */
-    // return DBHelper.openIDB()
-    //   .then(db => {
-    //     const tx = db.transaction('restaurants', 'readwrite');
-    //     var store = tx.objectStore('restaurants');
-    //     store.put(item);
-    //     return tx.complete;
-    //   });
+    return DBHelper.openIDB()
+      .then(db => {
+        const tx = db.transaction('restaurants', 'readwrite');
+        var store = tx.objectStore('restaurants');
+        return store.get(parseInt(id));
+      }).then(function(data) {
+        data.is_favorite = fav;
+        return DBHelper.openIDB()
+        .then(db => {
+          const tx = db.transaction('restaurants', 'readwrite');
+          var store = tx.objectStore('restaurants');
+          store.put(data)
+          return tx.complete;
+        });
+      });
     });
   }
 }
