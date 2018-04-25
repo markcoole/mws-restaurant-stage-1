@@ -1,3 +1,44 @@
+//Register service worker
+
+if (navigator.serviceWorker) {
+  navigator.serviceWorker.register('/sw.js').then(function(reg) {
+    console.log('Service worker succssfully registered!');
+    if ('sync' in reg) {
+      // do stuff here
+    let form = document.querySelector('.js-background-sync');
+    let idField = document.getElementById('rvId');
+    let idName = document.getElementById('rvName');
+    let idRating = document.getElementById('rvRating');
+    let idComment = document.getElementById('rvComment');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      var item = {
+        "restaurant_id": parseInt(idField.value),
+        "name": idName.value,
+        "rating": idRating.value,
+        "comments": idComment.value,
+        "createdAt": Date.now()
+      };
+
+      idName.value = "";
+      idRating.selectedIndex = 0;
+      idComment.value = "";
+
+      DBHelper.addOfflineReview(item);
+      return reg.sync.register(('offlineSync'));
+    });
+  }
+  
+  })
+  .catch(function () {
+    console.log('Service worker registration failed!');
+  });
+} else {
+  console.log('Service worker is not supported in this browser');
+}
+
+
 let restaurant;
 let reviews;
 var map;
@@ -73,6 +114,9 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     favourite.className = "not-favourite";
   }
 
+  const reviewId = document.getElementById('rvId');
+  reviewId.value = restaurant.id;
+
   // fill operating hours
   if (restaurant.operating_hours) {
     fillRestaurantHoursHTML();
@@ -110,7 +154,6 @@ fillReviewsHTML = (reviews = self.reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
-  console.log(self.reviews)
   container.appendChild(title);
   if (!reviews) {
     const noReviews = document.createElement('p');
@@ -119,11 +162,31 @@ fillReviewsHTML = (reviews = self.reviews) => {
     return;
   }
   const ul = document.getElementById('reviews-list');
+  ul.innerHTML = "";
   reviews.forEach(review => {
     ul.appendChild(createReviewHTML(review));
   });
   container.appendChild(ul);
 }
+
+/**
+ * Rebuild the reviews HTML
+ */
+rebuildReviews = (reviews = self.reviews) => {
+  const id = getParameterByName('id');
+  const container = document.getElementById('reviews-container');
+  const ul = document.getElementById('reviews-list');
+
+  DBHelper.fetchReviewsById(id, (error, reviews) => {
+    self.reviews = reviews;
+    ul.innerHTML = "";
+    reviews.forEach(review => {
+      ul.appendChild(createReviewHTML(review));
+    });
+    container.appendChild(ul);
+  })
+}
+
 
 /**
  * Create review HTML and add it to the webpage.
@@ -199,8 +262,9 @@ getParameterByName = (name, url) => {
 fetchReviewsFromURL = (callback) => {
   if (self.reviews) { // restaurant already fetched!
     callback(null, self.reviews)
-    return;
-  }
+    return
+    };
+  
   const id = getParameterByName('id');
   if (!id) { // no id found in URL
     error = 'No restaurant id in URL'

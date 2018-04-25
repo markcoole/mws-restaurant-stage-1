@@ -7,10 +7,14 @@ var urlsToCache = [
   '/',
   '/index.html',
   '/restaurant.html',
+  '/restaurant.html?id=1',
   '/css/styles.css',
   '/_assets/js/indexDB.js',
-  'js/main.js',
-  'js/restaurant_info.js',
+  '/_assets/js/dbHelper.js',
+  '/_assets/js/main.js',
+  '/_assets/js/restaurant_info.js',
+  // 'js/main.js',
+  // 'js/restaurant_info.js',
   '/img/1.webp',
   '/img/1-250px.webp',
   '/img/2.webp',
@@ -30,7 +34,8 @@ var urlsToCache = [
   '/img/9.webp',
   '/img/9-250px.webp',
   '/img/10.webp',
-  '/img/image-placeholder.webp'
+  '/img/image-placeholder.webp',
+  'https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css'
 ];
 
 self.addEventListener('install', function(event) {
@@ -72,3 +77,16 @@ self.addEventListener('fetch', function(event) {
     })
   );
 });
+
+importScripts('/_assets/js/indexDB.js');
+importScripts('/_assets/js/dbhelper.js');
+
+self.addEventListener('sync', function(event) {
+      // do asynchronous tasks here
+      if(event.tag == 'offlineSync') {
+        event.waitUntil(
+          DBHelper.addServerReview()
+        );
+      }
+  })
+

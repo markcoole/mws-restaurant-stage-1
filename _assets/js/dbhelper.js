@@ -1,15 +1,3 @@
-//Register service worker
-if (navigator.serviceWorker) {
-  navigator.serviceWorker.register('/sw.js').then(function() {
-    console.log('Service worker succssfully registered!');
-  })
-  .catch(function () {
-    console.log('Service worker registration failed!');
-  });
-} else {
-  console.log('Service worker is not supported in this browser');
-}
-
 /**
  * Common database helper functions.
  */
@@ -280,7 +268,6 @@ class DBHelper {
         let review = []; 
         for(let i = 0; i < reviews.length; i++) 
         {
-          console.log(reviews[i])
           if(reviews[i].restaurant_id == id) {
             review.push(reviews[i])
           }
@@ -316,40 +303,38 @@ class DBHelper {
   }
 
   /**
-   * Add review
+   * Add Server review
    */
-  static addReview() {
-    let newReview = document.getElementById('restaurantReview');
-    const id = getParameterByName('id');
-    var item = {
-      "restaurant_id": parseInt(id),
-      "name": newReview.name.value,
-      "rating": parseInt(newReview.rating.value),
-      "comments": newReview.review.value,
-      "createdAt": Date.now()
-    };
+  static addServerReview() {
+    DBHelper.readDB('reviews', 'reviews')
+    .then(data => {
+      return Promise.all(data.map(function(data){
 
-    var req = new Request( DBHelper.REVIEWS_URL, {
-      method: 'post',
-      mode: 'cors',
-      redirect: 'follow',
-      headers: {
-        "Content-type": "application/json"
-      },
-      body: JSON.stringify(item)
-    });
+        return fetch(
+          DBHelper.REVIEWS_URL, {
+          method: 'post',
+          mode: 'cors',
+          redirect: 'follow',
+          headers: {
+            "Content-type": "application/json"
+          },
+          body: JSON.stringify(data)
+        })
+      }));
+    })
 
-// Use request as first parameter to fetch method
-  fetch(req)
-    .then(() => { 
+  }
+
+  /**
+   * Add Offline review
+   */
+  static addOfflineReview(item) {
     /* handle response */
-    return DBHelper.openIDB()
-      .then(db => {
-        const tx = db.transaction('reviews', 'readwrite');
-        var store = tx.objectStore('reviews');
-        store.add(item);
-        return tx.complete;
-      });
+    return DBHelper.openIDB().then(db => {
+      const tx = db.transaction('reviews', 'readwrite');
+      var store = tx.objectStore('reviews');
+      store.put(item);
+      rebuildReviews();
     });
   }
 
