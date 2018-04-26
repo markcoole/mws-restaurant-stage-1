@@ -77,6 +77,8 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   padding: 25px 0;
   text-align: center;
   text-transform: uppercase; }
+  #footer a {
+    color: #fff; }
   @media only screen and (min-width: 1280px) {
     #footer {
       width: 100%; } }
@@ -143,7 +145,7 @@ nav {
     .filter-options {
       width: 100%; } }
   .filter-options h2 {
-    color: white;
+    color: #000;
     font-size: 16px;
     font-size: 1rem;
     font-weight: normal;
@@ -201,7 +203,7 @@ nav {
       #restaurants-list li {
         width: calc(20% - 94px); } }
     #restaurants-list li h2 {
-      color: #f18200;
+      color: #000;
       font-family: Arial,sans-serif;
       font-size: 16px;
       font-size: 1rem;
@@ -213,7 +215,7 @@ nav {
     #restaurants-list li a {
       background-color: orange;
       border-bottom: 3px solid #eee;
-      color: #fff;
+      color: #000;
       display: inline-block;
       font-size: 16px;
       font-size: 1rem;
@@ -272,7 +274,7 @@ nav {
       width: 50%; } }
 
 .inside #restaurant-name {
-  color: #f18200;
+  color: #000;
   font-family: Arial,sans-serif;
   font-size: 20px;
   font-size: 1.25rem;
@@ -294,11 +296,33 @@ nav {
   font-size: 1rem;
   margin: 10px 0px; }
 
-.inside .is-favourite {
-  background: blue; }
+.inside #restaurant-favourite {
+  width: 280px;
+  height: 48px;
+  font-size: 18px;
+  background: orange; }
 
-.inside .not-favourite {
-  background: pink; }
+.inside label {
+  width: 120px;
+  display: block; }
+
+.inside input,
+.inside textarea {
+  width: 200px; }
+
+.inside textarea {
+  height: 150px; }
+
+.inside input[type=submit] {
+  width: 120px;
+  height: 32px;
+  font-size: 18px;
+  background: orange;
+  margin-bottom: 40px; }
+
+.inside select {
+  height: 32px;
+  width: 32px; }
 
 .inside #restaurant-cuisine {
   background-color: #333;
@@ -366,7 +390,7 @@ nav {
       margin: 0; }
     .inside #reviews-list li .rating {
       background: orange;
-      color: #fff;
+      color: #000;
       font-weight: 700;
       display: inline-block;
       padding: 3px 10px;

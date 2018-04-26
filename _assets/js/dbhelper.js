@@ -379,10 +379,12 @@ class DBHelper {
     const id = getParameterByName('id');
     if(fav.classList.contains('is-favourite')) {
       fav.className = "not-favourite";
+      fav.innerText = "Like";
       fav = false;
     }
     else {
       fav.className = "is-favourite";
+      fav.innerText = "Unlike";
       fav = true;
     }
     

@@ -108,9 +108,11 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const favourite = document.getElementById('restaurant-favourite');
   if(restaurant.is_favorite) {
     favourite.className = "is-favourite";
+    favourite.innerText = "Unlike";
   }
   else {
     favourite.className = "not-favourite";
+    favourite.innerText = "Like";
   }
 
   const reviewId = document.getElementById('rvId');
@@ -192,6 +194,7 @@ rebuildReviews = (reviews = self.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
+  li.setAttribute('tabindex', '0');
   const div = document.createElement('div');
   div.className = "name-date";
   div.setAttribute('aria-label', 'Reviewer name');

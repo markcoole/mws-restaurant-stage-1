@@ -23,14 +23,14 @@ gulp.task('sass', function(){
 
 /* Compile the JS for the main index page */
 gulp.task('scripts-main', function(){
-  return gulp.src([ '_assets/js/responsiveLazy.js', '_assets/js/main.js'])
+  return gulp.src([ '_assets/js/indexDB.js', '_assets/js/dbhelper.js', '_assets/js/responsiveLazy.js', '_assets/js/main.js'])
       .pipe(concat('main.js'))
       .pipe(gulp.dest('js/'));
 });
 
 /* Compile the JS for the single restaurant page */
 gulp.task('scripts-restaurant', function(){
-  return gulp.src([ '_assets/js/dbhelper.js', '_assets/js/restaurant_info.js'])
+  return gulp.src([ '_assets/js/indexDB.js', '_assets/js/dbhelper.js', '_assets/js/restaurant_info.js'])
       .pipe(concat('restaurant_info.js'))
       .pipe(gulp.dest('js/'));
 });
