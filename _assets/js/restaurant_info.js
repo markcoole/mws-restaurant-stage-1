@@ -1,5 +1,4 @@
 //Register service worker
-
 if (navigator.serviceWorker) {
   navigator.serviceWorker.register('/sw.js').then(function(reg) {
     console.log('Service worker succssfully registered!');
@@ -16,7 +15,7 @@ if (navigator.serviceWorker) {
       var item = {
         "restaurant_id": parseInt(idField.value),
         "name": idName.value,
-        "rating": idRating.value,
+        "rating": parseInt(idRating.value),
         "comments": idComment.value,
         "createdAt": Date.now()
       };

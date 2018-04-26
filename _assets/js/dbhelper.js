@@ -34,6 +34,11 @@ class DBHelper {
           autoIncrement : true
         });
     }
+    if (!upgradeDB.objectStoreNames.contains('offlineReviews')) {
+      var store = upgradeDB.createObjectStore('offlineReviews', {
+        autoIncrement : true
+      });
+  }
     });
   }
 
@@ -61,6 +66,18 @@ class DBHelper {
       const tx = db.transaction(t);
       const store = tx.objectStore(o);
       return store.getAll();
+    })
+  }
+
+  /**
+   * Clear all from indexedDB
+   */
+  static clearDB(t, o) {
+    return DBHelper.openIDB()
+    .then(db => {
+      const tx = db.transaction(t,'readwrite');
+      const store = tx.objectStore(o);
+      return store.clear();
     })
   }
 
@@ -306,10 +323,9 @@ class DBHelper {
    * Add Server review
    */
   static addServerReview() {
-    DBHelper.readDB('reviews', 'reviews')
+    DBHelper.readDB('offlineReviews', 'offlineReviews')
     .then(data => {
       return Promise.all(data.map(function(data){
-
         return fetch(
           DBHelper.REVIEWS_URL, {
           method: 'post',
@@ -320,17 +336,28 @@ class DBHelper {
           },
           body: JSON.stringify(data)
         })
-      }));
+        .then(function(response) {  
+          return response.json();
+        }).then(function(data) {
+          if (data.result === 'success') {
+            return DBHelper.clearDB('offlineReviews', 'offlineReviews');
+          }
+        })
     })
-
-  }
+    )
+  }).catch(function(err) { console.error(err); })  
+};
 
   /**
    * Add Offline review
    */
   static addOfflineReview(item) {
     /* handle response */
-    return DBHelper.openIDB().then(db => {
+    DBHelper.openIDB().then(db => {
+      const oltx = db.transaction('offlineReviews', 'readwrite');
+      var olstore = oltx.objectStore('offlineReviews');
+      olstore.put(item);
+
       const tx = db.transaction('reviews', 'readwrite');
       var store = tx.objectStore('reviews');
       store.put(item);
