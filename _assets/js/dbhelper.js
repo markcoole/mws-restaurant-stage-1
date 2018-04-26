@@ -323,30 +323,36 @@ class DBHelper {
    * Add Server review
    */
   static addServerReview() {
-    DBHelper.readDB('offlineReviews', 'offlineReviews')
-    .then(data => {
+    DBHelper.readDB('offlineReviews', 'offlineReviews').then(data => 
+    {
+      console.log('step 1')
       return Promise.all(data.map(function(data){
+        console.log('step 2')
         return fetch(
-          DBHelper.REVIEWS_URL, {
+        DBHelper.REVIEWS_URL, {
           method: 'post',
           mode: 'cors',
           redirect: 'follow',
           headers: {
-            "Content-type": "application/json"
-          },
-          body: JSON.stringify(data)
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify(data)
         })
-        .then(function(response) {  
-          return response.json();
-        }).then(function(data) {
-          if (data.result === 'success') {
-            return DBHelper.clearDB('offlineReviews', 'offlineReviews');
-          }
+        .catch((err) => {
+          console.log('step 5')
+          return Promise.reject(err);
         })
-    })
-    )
-  }).catch(function(err) { console.error(err); })  
-};
+        .then((response) => 
+        { 
+          console.log('step 3')
+          console.log(response)
+          DBHelper.clearDB('offlineReviews', 'offlineReviews').then(() => {
+            console.log("Offline Reviews cleared!")
+          })
+        }) 
+    }))
+  })
+}
 
   /**
    * Add Offline review

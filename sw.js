@@ -82,6 +82,7 @@ importScripts('/_assets/js/indexDB.js');
 importScripts('/_assets/js/dbhelper.js');
 
 self.addEventListener('sync', function(event) {
+  console.log('sync from SW - send post');
       // do asynchronous tasks here
       if(event.tag == 'offlineSync') {
         event.waitUntil(
