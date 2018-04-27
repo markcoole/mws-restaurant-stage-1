@@ -3,33 +3,6 @@
 if (navigator.serviceWorker) {
   navigator.serviceWorker.register('/sw.js').then(function(reg) {
     console.log('Service worker succssfully registered!');
-    if ('sync' in reg) {
-      // do stuff here
-    let form = document.querySelector('.js-background-sync');
-    let idField = document.getElementById('rvId');
-    let idName = document.getElementById('rvName');
-    let idRating = document.getElementById('rvRating');
-    let idComment = document.getElementById('rvComment');
-
-    form.addEventListener('submit', function(event) {
-      event.preventDefault();
-      var item = {
-        "restaurant_id": parseInt(idField.value),
-        "name": idName.value,
-        "rating": idRating.value,
-        "comments": idComment.value,
-        "createdAt": Date.now()
-      };
-
-      idName.value = "";
-      idRating.selectedIndex = 0;
-      idComment.value = "";
-
-      DBHelper.addOfflineReview(item);
-      return reg.sync.register(('offlineSync'));
-    });
-  }
-  
   })
   .catch(function () {
     console.log('Service worker registration failed!');
@@ -51,6 +24,7 @@ var markers = []
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
+  updateRestaurants();
 });
 
 /**
@@ -112,7 +86,7 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
 /**
  * Initialize Google map, called from HTML.
  */
-window.initMap = () => {
+initMap = () => {
   let loc = {
     lat: 40.722216,
     lng: -73.987501
@@ -122,7 +96,8 @@ window.initMap = () => {
     center: loc,
     scrollwheel: false
   });
-  updateRestaurants();
+  fillRestaurantsHTML();
+  new LazyLoad();
 }
 
 /**
@@ -237,3 +212,9 @@ document.onreadystatechange = function () {
       
   }
 }
+
+document.getElementById('showMap').addEventListener('click', () => {
+  initMap()
+  document.getElementById('showMap').style.display = "none";
+  document.getElementById('map-container').style.display = "block";
+})

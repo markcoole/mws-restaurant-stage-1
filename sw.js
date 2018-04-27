@@ -1,3 +1,5 @@
+importScripts('/_assets/js/dbhelper.js');
+
 var staticCacheName = 'mws-restaurant-stage-v1';
 var allCaches = [
   staticCacheName
@@ -7,14 +9,8 @@ var urlsToCache = [
   '/',
   '/index.html',
   '/restaurant.html',
-  '/restaurant.html?id=1',
-  '/css/styles.css',
-  '/_assets/js/indexDB.js',
-  '/_assets/js/dbHelper.js',
-  '/_assets/js/main.js',
-  '/_assets/js/restaurant_info.js',
-  // 'js/main.js',
-  // 'js/restaurant_info.js',
+  'js/main.js',
+  'js/restaurant_info.js',
   '/img/1.webp',
   '/img/1-250px.webp',
   '/img/2.webp',
@@ -77,9 +73,6 @@ self.addEventListener('fetch', function(event) {
     })
   );
 });
-
-importScripts('/_assets/js/indexDB.js');
-importScripts('/_assets/js/dbhelper.js');
 
 self.addEventListener('sync', function(event) {
   console.log('sync from SW - send post');

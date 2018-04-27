@@ -37,6 +37,18 @@ if (navigator.serviceWorker) {
   console.log('Service worker is not supported in this browser');
 }
 
+/**
+ * Fetch neighborhoods and cuisines as soon as the page is loaded.
+ */
+document.addEventListener('DOMContentLoaded', (event) => {
+  fetchRestaurantFromURL((error, restaurant) => {
+    if (error) { // Got an error!
+      console.error(error);
+    } else {
+      fillBreadcrumb();
+    }
+  })
+});
 
 let restaurant;
 let reviews;
@@ -45,7 +57,7 @@ var map;
 /**
  * Initialize Google map, called from HTML.
  */
-window.initMap = () => {
+initMap = () => {
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
       console.error(error);
@@ -55,7 +67,6 @@ window.initMap = () => {
         center: restaurant.latlng,
         scrollwheel: false
       });
-      fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
     }
   });
@@ -284,3 +295,9 @@ fetchReviewsFromURL = (callback) => {
     });
   }
 }
+
+document.getElementById('showMap').addEventListener('click', () => {
+  initMap()
+  document.getElementById('showMap').style.display = "none";
+  document.getElementById('map-container').style.display = "block";
+})
